@@ -44,5 +44,30 @@ FIRST_WEEKDAY = 6
 
 # Обработка предварительных данных
 months_clean = [(i[0].strip().capitalize(), *i[1:]) for i in MONTHS]
-    
+
+print("-"*20)
+# Создаем две переменные для ввода года и месяца    
+my_year = int(input("Введите год: "))
+
+# Создаем счетчик для количества дней в этом году
+count_days = 0
+
+# Создаем условие для определение типа года и количества дней в нем
+if my_year < 0:
+    print("Годы считаются с нулевого. Попробуй снова!)")
+elif my_year % LEAP_A == 0 and (my_year % LEAP_B != 0 or my_year % LEAP_C == 0):
+    for months in months_clean:
+        count_days += months[2]
+    print(f"Результат: год {my_year} - високосный, и в нем {count_days} дня(дней)")
+else:
+    for months in months_clean:
+        count_days += months[1]
+    print(f"Результат: год {my_year} -  не високосный, и в нем {count_days} дня(дней)")
+
+print("-"*20)
+
+
+
+
+
 
