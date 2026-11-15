@@ -66,6 +66,62 @@ else:
 
 print("-"*20)
 
+# Создаем календарь
+calendar_year = int(input("Введите год: "))
+
+if calendar_year < 0:
+    print("Годы считаются с нулевого. Попробуй снова!)")
+
+calendar_month = int(input("Введите месяц: "))
+
+if calendar_month < 0 or calendar_month > len(months_clean):
+    print("Такого месяца нет.")
+
+# Расчет количества дней до (calendar_year - 1)
+total_days = 0
+
+if calendar_year > 0:
+    for k in range(calendar_year):
+        total_day_years = 0
+        if k % LEAP_A == 0 and (k % LEAP_B != 0 or k % LEAP_C == 0):
+            for months in months_clean:
+                total_day_years += months[2]
+        else:
+            for months in months_clean:
+                total_day_years += months[1]
+        total_days += total_day_years
+        
+# Расчет количества дней в calendar_year до (calendar_month - 1)
+total_days_ty = 0
+
+if calendar_year % LEAP_A == 0 and (calendar_year % LEAP_B != 0 or calendar_year % LEAP_C == 0):
+    for m in range(calendar_month - 1):
+        total_days_ty += months_clean[m][2]
+else:
+    for m in range(calendar_month - 1):
+        total_days_ty += months_clean[m][1]
+
+total_days += total_days_ty
+
+# Расчет дней заданного месяца 
+if calendar_year % LEAP_A == 0 and (calendar_year % LEAP_B != 0 or calendar_year % LEAP_C == 0):
+    my_months_days = months_clean[calendar_month - 1][2]
+else:
+    my_months_days = months_clean[calendar_month - 1][1]
+
+# Находим число для каждого дня заданного месяца
+
+day_name = []
+
+for day in range(1, my_months_days+1):
+    weekday_index = (FIRST_WEEKDAY + total_days + day - 1) % len(WEEKDAYS)
+    weekday_name = WEEKDAYS[weekday_index]
+    day_name.append((day, weekday_name))
+
+my_day = int(input("Введите число месяца: "))
+
+print(f"{my_day}-е число месяца №{calendar_month} в {calendar_year} году - {day_name[my_day-1][1]}")
+
 
 
 
