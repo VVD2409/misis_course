@@ -64,7 +64,7 @@ else:
         count_days += months[1]
     print(f"Результат: год {my_year} -  не високосный, и в нем {count_days} дня(дней)")
 
-print("-"*20)
+print("-"*20, end="\n")
 
 # Создаем календарь
 calendar_year = int(input("Введите год: "))
@@ -74,7 +74,7 @@ if calendar_year < 0:
 
 calendar_month = int(input("Введите месяц: "))
 
-if calendar_month < 0 or calendar_month > len(months_clean):
+if calendar_month < 1 or calendar_month > len(months_clean):
     print("Такого месяца нет.")
 
 # Расчет количества дней до (calendar_year - 1)
@@ -109,18 +109,59 @@ if calendar_year % LEAP_A == 0 and (calendar_year % LEAP_B != 0 or calendar_year
 else:
     my_months_days = months_clean[calendar_month - 1][1]
 
-# Находим число для каждого дня заданного месяца
 
-day_name = []
+# Теперь создаем календарь для вывода 
 
-for day in range(1, my_months_days+1):
-    weekday_index = (FIRST_WEEKDAY + total_days + day - 1) % len(WEEKDAYS)
-    weekday_name = WEEKDAYS[weekday_index]
-    day_name.append((day, weekday_name))
+# Задаем столбец, в котором начинается первый день месяца
+first_day_index = (FIRST_WEEKDAY + total_days) % len(WEEKDAYS)
 
-my_day = int(input("Введите число месяца: "))
+# Задаем ширину столбца по названиям дней недели
+weekday_labels = [name[:3] for name in WEEKDAYS]
+widths = [max(len(label), 3) + 1 for label in weekday_labels]
 
-print(f"{my_day}-е число месяца №{calendar_month} в {calendar_year} году - {day_name[my_day-1][1]}")
+# Задаем форматирование для вывода заголовка таблицы
+month_name = months_clean[calendar_month - 1][0]
+print()
+print(f"{month_name} {calendar_year}".center(sum(widths)))
+
+# Выводим заголовки дней недели
+for i, label in enumerate(weekday_labels):
+    print(label.rjust(widths[i]), end="")
+print()
+
+# Пустые ячейки до первого дня месяца
+cells = [""] * first_day_index + list(range(1, my_months_days + 1))
+
+# Дополняем пустыми ячейками до конца недели
+cells += [""] * ((-len(cells))% len(WEEKDAYS))
+
+# Выводим календарь
+week_length = len(WEEKDAYS)
+
+for start in range(0, len(cells), week_length):
+    for column in range(week_length):
+        cell = cells[start + column]
+        print(str(cell).rjust(widths[column]), end="")
+    print()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
