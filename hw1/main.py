@@ -144,7 +144,7 @@ for start in range(0, len(cells), week_length):
         print(str(cell).rjust(widths[column]), end="")
     print()
 
-
+print()
 
 
 
