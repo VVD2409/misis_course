@@ -36,3 +36,40 @@ ALIASES = {
 # Плюс — ему должны, минус — должен он. 
 # (Словарь.)
 
+# Создаем словарь с нулевыми балансами для каждого человека из ALIASES
+balances = {name: 0 for name in ALIASES.values()}
+
+# Разбиваем журнал на строки
+log_split = LOG.strip().split("\n")
+
+# Обработка строк
+for line in log_split:
+
+    # Первоначальная обработка строк
+    line = line.strip(" ")
+    line = line.replace(",", "").replace(":", "").replace("—", "") 
+    line = line.replace("руб", "").replace("₽", "")
+    for i in range(len(line)):
+        if line[i-1] in "0123456789" and line[i] == "р":
+            line = line[:i] + line[i+1:]
+
+    # Заменяем на имена ALIASES
+    # Нужно учесть, что есть слова состоящие из имен
+    line = line.lower()
+    line = line.split()
+    for j, word in enumerate(line):
+        if word in ALIASES:
+            line[j] = ALIASES[word]
+    
+    # Заносим в count суммы из строк
+    count = ''
+    for i in range(len(line)):
+        if line[i].isdigit() or '.' in line[i]:
+            count += line[i]
+    count = float(count)
+
+    
+
+        
+
+
